@@ -1,0 +1,32 @@
+# ============================================
+# Spam Email Detection System - Dependencies
+# ============================================
+
+# Data handling
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+
+# Natural Language Processing
+nltk
+
+# Visualization
+matplotlib
+seaborn
+plotly
+
+# Web UI
+streamlit
+
+# Model serialization
+joblib
+
+# Word cloud visualization
+wordcloud
+
+# API Backend
+fastapi
+uvicorn
+pydantic
