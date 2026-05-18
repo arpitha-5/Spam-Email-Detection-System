@@ -232,7 +232,7 @@ def main():
         user_input = st.text_area(
             "Paste your email or SMS text below:",
             height=150,
-            placeholder="Example: Congratulations! You've won a FREE iPhone. Call NOW to claim your prize!",
+            placeholder="",
             label_visibility="collapsed",
         )
 

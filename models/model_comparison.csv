@@ -1,5 +1,5 @@
 Model,Accuracy,Precision,Recall,F1-Score,Train Time (s)
-Naive Bayes,0.9778,0.9426,0.8779,0.9091,0.003
-SVM,0.9768,0.9213,0.8931,0.907,0.032
-Decision Tree,0.9545,0.8621,0.7634,0.8097,0.069
-Logistic Regression,0.9487,0.9643,0.6183,0.7535,0.017
+SVM,0.9787,0.916,0.916,0.916,0.033
+Naive Bayes,0.9729,0.9402,0.8397,0.8871,0.002
+Logistic Regression,0.9691,0.8462,0.9237,0.8832,0.01
+Decision Tree,0.9381,0.7279,0.8168,0.7698,0.07

@@ -98,29 +98,27 @@ def run_pipeline():
     df["cleaned"] = preprocess_dataframe(df, "message")
     print(f"   ✅ Done! {len(df)} messages preprocessed.")
 
-    # ──────────────────────────────────────────
-    # STEP 3: Feature Engineering (TF-IDF)
-    # ──────────────────────────────────────────
     print("\n" + "─" * 70)
-    print("📐 STEP 3: Feature Engineering (TF-IDF)")
+    print("✂️  STEP 3 & 4: Train-Test Split & Feature Engineering")
     print("─" * 70)
 
-    vectorizer = create_tfidf_vectorizer(max_features=5000)
-    X = fit_vectorizer(vectorizer, df["cleaned"].tolist())
+    # Split text data FIRST to prevent data leakage
+    from sklearn.model_selection import train_test_split
+    X_text = df["cleaned"].tolist()
     y = df["label_encoded"].values
 
+    X_train_text, X_test_text, y_train, y_test = train_test_split(
+        X_text, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    vectorizer = create_tfidf_vectorizer(max_features=5000)
+    X_train = fit_vectorizer(vectorizer, X_train_text)
+    X_test = transform_text(vectorizer, X_test_text)
+
     print(f"\n   ✅ TF-IDF matrix created")
-    print(f"   📊 Shape: {X.shape} (documents × features)")
+    print(f"   📊 Train Shape: {X_train.shape} (documents × features)")
+    print(f"   📊 Test Shape: {X_test.shape} (documents × features)")
     print(f"   📝 Top 15 features: {get_top_features(vectorizer, 15)}")
-
-    # ──────────────────────────────────────────
-    # STEP 4: Train-Test Split
-    # ──────────────────────────────────────────
-    print("\n" + "─" * 70)
-    print("✂️  STEP 4: Train-Test Split (80/20)")
-    print("─" * 70)
-
-    X_train, X_test, y_train, y_test = split_data(X, y)
 
     # ──────────────────────────────────────────
     # STEP 5: Train Models

@@ -155,10 +155,22 @@ class SpamPredictor:
         
         if phishing_info["is_phishing"]:
             risk_level = "Critical (Phishing)"
+            
+        # ── Override Logic for Obvious Spam ──
+        # If the ML model misses a short text but it contains obvious spam keywords
+        # or has a very low safety score, we override the prediction.
+        is_spam_final = bool(prediction == 1)
+        if phishing_info["is_phishing"] or len(spam_words) >= 2 or safety_info["score"] < 50:
+            is_spam_final = True
+            if spam_prob < 0.5:
+                # Adjust probability so UI reflects the override
+                spam_prob = 0.85
+                ham_prob = 0.15
+                confidence = 0.85
 
         return {
-            "prediction": "Spam" if prediction == 1 else "Not Spam",
-            "is_spam": bool(prediction == 1),
+            "prediction": "Spam" if is_spam_final else "Not Spam",
+            "is_spam": is_spam_final,
             "confidence": round(confidence, 4),
             "spam_probability": round(spam_prob, 4),
             "ham_probability": round(ham_prob, 4),

@@ -100,14 +100,15 @@ def get_models() -> dict:
         "Logistic Regression": LogisticRegression(
             C=1.0,
             max_iter=1000,
-            random_state=42
+            random_state=42,
+            class_weight='balanced'
         ),
 
         # ── SVM (Support Vector Machine) ──
         # We wrap LinearSVC in CalibratedClassifierCV so it can
         # output probabilities (LinearSVC doesn't by default)
         "SVM": CalibratedClassifierCV(
-            LinearSVC(max_iter=2000, random_state=42),
+            LinearSVC(max_iter=2000, random_state=42, class_weight='balanced'),
             cv=3
         ),
 
@@ -115,7 +116,8 @@ def get_models() -> dict:
         # max_depth=20 → limits tree depth to prevent overfitting
         "Decision Tree": DecisionTreeClassifier(
             max_depth=20,
-            random_state=42
+            random_state=42,
+            class_weight='balanced'
         ),
     }
     return models
